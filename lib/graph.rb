@@ -51,29 +51,27 @@ class Graph
     return vertices
   end
 
-  def find(vertex, root = @vertices.length/2)
-    left = root/2
-    if (root/2) * 3 > @vertices.length - 1
-      right = @vertices.length - 1
-    else
-      right = (root/2) * 3  
+  def find(vertex, first = 0, last = (@vertices.length - 1))
+    if first > last
+      return nil
     end
-    
 
-    if vertex[0] == @vertices[root].position[0]
-      if vertex[1] == @vertices[root].position[1]
-        return root
-      elsif vertex[1] < @vertices[root].position[1]
-        offset = (@vertices[root].position[1] - vertex[1])
-        find(vertex, root - offset)
+    count += 1
+    mid = (first + last)/2
+
+    if vertex[0] == @vertices[mid].position[0]
+      if vertex[1] == @vertices[mid].position[1]
+        return mid
+      elsif vertex[1] < @vertices[mid].position[1]
+        find(vertex, first, mid - 1)
       else
-        offset = (vertex[1] - @vertices[root].position[1])
-        find(vertex, root + offset)
+        find(vertex, mid + 1, last)
       end
-    elsif vertex[0] < @vertices[root].position[0]
-      find(vertex, left)
+    elsif vertex[0] < @vertices[mid].position[0]
+      find(vertex, first, mid - 1)
     else
-      find(vertex, right)
+      find(vertex, mid + 1, last)
     end
   end
+
 end
