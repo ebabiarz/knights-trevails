@@ -1,0 +1,19 @@
+Th Knights Trevails project is part of The Odin Project's Ruby on Rails program. Its purpose is to display what I've learned up to this point in Ruby, specifically binary search and breadth first search algorithms.
+
+This program uses the above techniques to find the shortest path a Knight could take from one square on a chess board to another. It first creates a Graph object, which itself contains many Vertex objects. Then it takes the input of a start point and an end point. Finally, it outputs the number of moves required, as well as each square the Knight moved to along the way.
+
+To start, the program creates the Graph instance, representing the chess board. The first step in that process is to create a vertex array with each possible location coordinate of the chess board, from [0, 0] to [7, 7]. A Vertex instance is created for each of the possible coordinates and added to a second array. Each Vertex instance gets a @position instance variable and a @possible_moves instance variable. The method #get_possible_moves is used to determine the possible a Knight could make from the current possition, filtering out any that fall outside of the limits of the board. Finally, the Graph object's @vertices instance variable is set to the second array that contains the Vertex objects.
+
+There is also a #find instance method for the Graph class that gets utilized in the #knight_moves instance method. The #find method takes position coordinates, [0, 0] for example, and returns the index where the corresponding Vertex object is located in @vertices. It uses a binary search algorithm to achieve this.
+
+The #knight_moves method takes starting coordinates and ending coordinates as input, such as ([0, 0], [3, 3]). This is where the #find method became necessary. It also uses the Vertex object associated with the starting coordinates, so to properly set that, a #find method that takes the coordinates and outputs the index of the Vertex object was required.
+
+The #knight_moves method utilizes breadth first search to move through the possible moves, keeping track of previous moves to avoid redundancy. For each current vertex, it moves through the possible moves, checks that they haven't already been added to the previous_moves array, adds the current vertex to each of their @previous_move instance variables, and pushes them to the queue. Using recursion, it then calls the #knight_moves method, using the next item in the queue as its input.
+
+The base case for the #knight_moves method checks if the current vertex's position is the same as the end_point that was initially input. If it is, it calls the #add_previous_moves method, which recursively moves through the relevant Vertex objects and adds the value of their @previous_move instance variable to the beginning of the moves array.
+
+The moves array is passed to the #give_response method, which outputs a message with the number of moves and lists the coordinates of each move that was made to get there.
+
+Finally, the #clear_previous_moves method is called to set all existing Vertex object's @previous_move instance variables back to nil. I discovered this was necessary when calling #knight_moves multiple times for different start and end points. Failing to do so would result in a SystemStackError.
+
+The Knights Trevails project was a real test of my knowledge up to this point in The Odin Project. It pushed me to think about how the covered search algorithms could be applied to a different data structure, as well as the problems that come along with it. Working through these was a great test of my problem solving skill and patience. I found it very frustrating at points, but even more satisfying when I found a solution.
