@@ -1,9 +1,8 @@
 class Graph
-  attr_accessor :vertices, :vertices_array
+  attr_accessor :vertices
 
   def initialize(size)
     @vertices = create_graph(size)
-    @vertices_array
   end
 
   def add_previous_moves(current_vertex, moves)
